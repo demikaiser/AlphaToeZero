@@ -2,13 +2,10 @@
 # Unauthorized copying of this file, via any medium is strictly prohibited.
 # Written by Jake Jonghun Choi <demikaiser13@gmail.com>
 
-from gui import main_gui
+import os
 
-
-def main():
-    main_gui.MainGui.start()
-
+ROOT_DIR = os.path.dirname(os.path.abspath(__file__))
+ASSETS_DIR = os.path.join(ROOT_DIR, "assets")
 
 if __name__ == '__main__':
-    main()
-
+    print(ROOT_DIR)
