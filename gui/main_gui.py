@@ -383,7 +383,7 @@ class MainGui(tkinter.Frame):
         """ Passes the button input from the user to the game object.
         """
 
-        self.tictactoe_game.make_movement_by_human(
+        self.tictactoe_game.make_movement(
             self.tictactoe_game.turn, 0, 0
         )
 
@@ -391,7 +391,7 @@ class MainGui(tkinter.Frame):
         """ Passes the button input from the user to the game object.
         """
 
-        self.tictactoe_game.make_movement_by_human(
+        self.tictactoe_game.make_movement(
             self.tictactoe_game.turn, 0, 1
         )
 
@@ -399,7 +399,7 @@ class MainGui(tkinter.Frame):
         """ Passes the button input from the user to the game object.
         """
 
-        self.tictactoe_game.make_movement_by_human(
+        self.tictactoe_game.make_movement(
             self.tictactoe_game.turn, 0, 2
         )
 
@@ -407,7 +407,7 @@ class MainGui(tkinter.Frame):
         """ Passes the button input from the user to the game object.
         """
 
-        self.tictactoe_game.make_movement_by_human(
+        self.tictactoe_game.make_movement(
             self.tictactoe_game.turn, 1, 0
         )
 
@@ -415,7 +415,7 @@ class MainGui(tkinter.Frame):
         """ Passes the button input from the user to the game object.
         """
 
-        self.tictactoe_game.make_movement_by_human(
+        self.tictactoe_game.make_movement(
             self.tictactoe_game.turn, 1, 1
         )
 
@@ -423,7 +423,7 @@ class MainGui(tkinter.Frame):
         """ Passes the button input from the user to the game object.
         """
 
-        self.tictactoe_game.make_movement_by_human(
+        self.tictactoe_game.make_movement(
             self.tictactoe_game.turn, 1, 2
         )
 
@@ -431,7 +431,7 @@ class MainGui(tkinter.Frame):
         """ Passes the button input from the user to the game object.
         """
 
-        self.tictactoe_game.make_movement_by_human(
+        self.tictactoe_game.make_movement(
             self.tictactoe_game.turn, 2, 0
         )
 
@@ -439,7 +439,7 @@ class MainGui(tkinter.Frame):
         """ Passes the button input from the user to the game object.
         """
 
-        self.tictactoe_game.make_movement_by_human(
+        self.tictactoe_game.make_movement(
             self.tictactoe_game.turn, 2, 1
         )
 
@@ -447,7 +447,7 @@ class MainGui(tkinter.Frame):
         """ Passes the button input from the user to the game object.
         """
 
-        self.tictactoe_game.make_movement_by_human(
+        self.tictactoe_game.make_movement(
             self.tictactoe_game.turn, 2, 2
         )
 
@@ -510,6 +510,7 @@ class MainGui(tkinter.Frame):
         """
 
         self.function_console_print("Game started.")
+        self.set_game_button_base_images()
 
         player_o_selection = self.variable_o_player_selection.get()
         player_x_selection = self.variable_x_player_selection.get()

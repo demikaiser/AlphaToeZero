@@ -6,7 +6,7 @@ import unittest
 
 from game_logic import board
 from game_logic import player
-
+from game_logic import ai_interface
 
 class TicTacToe(object):
     """TicTacToe game container that has a board and two players.
@@ -17,8 +17,7 @@ class TicTacToe(object):
         self.player_o = player.Player(player_o_agent, 1)
         self.player_x = player.Player(player_x_agent, -1)
         self.turn = 1  # Initialized to 1, then -1, 1, -1, 1...
-        self.context = context  # GUI context for sending messages.
-        self.status = "playing"
+        self.context_gui = context  # GUI context for sending messages.
 
     def change_turn(self):
         """Changes the turn after a movement.
@@ -35,24 +34,36 @@ class TicTacToe(object):
         """
 
         if self.player_o.agent == "Human":
-            pass
+            self.context_gui.function_console_print("<Human O Player's Turn>")
+
         elif self.player_o.agent == "AI with Search":
-            pass
+            self.context_gui.function_console_print("<AI Search O Player's Turn>")
+            ai_interface.AIInterface(self.context_gui, self, 1,
+                                     self.board.state).generate_next_move()
+
         elif self.player_o.agent == "AI with Learning":
-            pass
+            self.context_gui.function_console_print("<AI Learning O Player's Turn>")
+            ai_interface.AIInterface(self.context_gui, self, 1,
+                                     self.board.state).generate_next_move()
 
     def start_thinking_player_x(self):
         """ Makes the player X think.
         """
 
         if self.player_x.agent == "Human":
-            pass
-        elif self.player_x.agent == "AI with Search":
-            pass
-        elif self.player_x.agent == "AI with Learning":
-            pass
+            self.context_gui.function_console_print("<Human X Player's Turn>")
 
-    def make_movement_by_human(self, player_side, row, col):
+        elif self.player_x.agent == "AI with Search":
+            self.context_gui.function_console_print("<AI Search X Player's Turn>")
+            ai_interface.AIInterface(self.context_gui, self, -1,
+                                     self.board.state).generate_next_move()
+
+        elif self.player_x.agent == "AI with Learning":
+            self.context_gui.function_console_print("<AI Learning X Player's Turn>")
+            ai_interface.AIInterface(self.context_gui, self, -1,
+                                     self.board.state).generate_next_move()
+
+    def make_movement(self, player_side, row, col):
         """Makes a move for the given player.
 
         Args:
@@ -60,29 +71,36 @@ class TicTacToe(object):
             row: Row number of the movement.
             col: Column number of the movement.
         """
+
+        # Check if this is a legal move.
+        if self.board.state[row][col] != 0:
+            self.context_gui.function_console_print("Illegal move, do it again.")
+            if player_side == 1 and "AI" in self.player_o.agent:
+                self.start_thinking_player_o()
+            elif player_side == -1 and "AI" in self.player_x.agent:
+                self.start_thinking_player_x()
+            return
+
+        # Print the message about the movement.
+        if self.turn == 1:
+            self.context_gui.function_console_print("{} O moved at ({}, {})"
+                                                    .format(self.player_o.agent,
+                                                        row, col))
+        elif self.turn == -1:
+            self.context_gui.function_console_print("{} X moved at ({}, {})"
+                                                    .format(self.player_o.agent,
+                                                        row, col))
+
         if player_side == 1:
             self.board.state[row][col] = 1
         elif player_side == -1:
             self.board.state[row][col] = -1
 
-        self.context.update_buttonGameTiles()
+        self.context_gui.update_buttonGameTiles()
 
         if self.is_game_terminated():
-            self.context.terminate_game(self.get_winner())
-
-        self.change_turn()
-
-    def make_movement_by_ai(self, state):
-        """Make a move to the given state (for AI use).
-
-        Args:
-            state: The state to move on.
-        """
-        for i in range(3):
-            for j in range(3):
-                self.board.state[i][j] = state[i][j]
-
-        self.context.update_buttonGameTiles()
+            self.context_gui.terminate_game(self.get_winner())
+            return
 
         self.change_turn()
 
@@ -110,8 +128,8 @@ class TicTacToe(object):
             True if there is at least one empty board spot.
         """
 
-        for i in range(2):
-            for j in range(2):
+        for i in range(3):
+            for j in range(3):
                 if self.board.state[i][j] == 0:
                     return True
         return False
