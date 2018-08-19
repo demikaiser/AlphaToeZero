@@ -45,6 +45,9 @@ class MainGui(tkinter.Frame):
         # Disable the stop button since nothing has been started.
         self.buttonGameStop.configure(state=tkinter.DISABLED)
 
+        # Disable all game button tiles.
+        self.disable_all_buttonGameTiles()
+
     def init_master_frame(self):
         """Creates the master frame.
         """
@@ -348,49 +351,159 @@ class MainGui(tkinter.Frame):
                                      width="100", height="100")
         self.buttonGameTile22.image = self.imageEmpty
 
+    def enable_all_buttonGameTiles(self):
+        """ Enables all game tile buttons.
+        """
 
+        self.buttonGameTile00.configure(state=tkinter.NORMAL)
+        self.buttonGameTile01.configure(state=tkinter.NORMAL)
+        self.buttonGameTile02.configure(state=tkinter.NORMAL)
+        self.buttonGameTile10.configure(state=tkinter.NORMAL)
+        self.buttonGameTile11.configure(state=tkinter.NORMAL)
+        self.buttonGameTile12.configure(state=tkinter.NORMAL)
+        self.buttonGameTile20.configure(state=tkinter.NORMAL)
+        self.buttonGameTile21.configure(state=tkinter.NORMAL)
+        self.buttonGameTile22.configure(state=tkinter.NORMAL)
 
+    def disable_all_buttonGameTiles(self):
+        """ Disables all game tile buttons.
+        """
 
-
-
-
-
-
+        self.buttonGameTile00.configure(state=tkinter.DISABLED)
+        self.buttonGameTile01.configure(state=tkinter.DISABLED)
+        self.buttonGameTile02.configure(state=tkinter.DISABLED)
+        self.buttonGameTile10.configure(state=tkinter.DISABLED)
+        self.buttonGameTile11.configure(state=tkinter.DISABLED)
+        self.buttonGameTile12.configure(state=tkinter.DISABLED)
+        self.buttonGameTile20.configure(state=tkinter.DISABLED)
+        self.buttonGameTile21.configure(state=tkinter.DISABLED)
+        self.buttonGameTile22.configure(state=tkinter.DISABLED)
 
     def function_buttonGameTile00(self):
-        pass
+        """ Passes the button input from the user to the game object.
+        """
+
+        self.tictactoe_game.make_movement_by_human(
+            self.tictactoe_game.turn, 0, 0
+        )
 
     def function_buttonGameTile01(self):
-        pass
+        """ Passes the button input from the user to the game object.
+        """
+
+        self.tictactoe_game.make_movement_by_human(
+            self.tictactoe_game.turn, 0, 1
+        )
 
     def function_buttonGameTile02(self):
-        pass
+        """ Passes the button input from the user to the game object.
+        """
+
+        self.tictactoe_game.make_movement_by_human(
+            self.tictactoe_game.turn, 0, 2
+        )
 
     def function_buttonGameTile10(self):
-        pass
+        """ Passes the button input from the user to the game object.
+        """
+
+        self.tictactoe_game.make_movement_by_human(
+            self.tictactoe_game.turn, 1, 0
+        )
 
     def function_buttonGameTile11(self):
-        pass
+        """ Passes the button input from the user to the game object.
+        """
+
+        self.tictactoe_game.make_movement_by_human(
+            self.tictactoe_game.turn, 1, 1
+        )
 
     def function_buttonGameTile12(self):
-        pass
+        """ Passes the button input from the user to the game object.
+        """
+
+        self.tictactoe_game.make_movement_by_human(
+            self.tictactoe_game.turn, 1, 2
+        )
 
     def function_buttonGameTile20(self):
-        pass
+        """ Passes the button input from the user to the game object.
+        """
+
+        self.tictactoe_game.make_movement_by_human(
+            self.tictactoe_game.turn, 2, 0
+        )
 
     def function_buttonGameTile21(self):
-        pass
+        """ Passes the button input from the user to the game object.
+        """
+
+        self.tictactoe_game.make_movement_by_human(
+            self.tictactoe_game.turn, 2, 1
+        )
 
     def function_buttonGameTile22(self):
-        pass
+        """ Passes the button input from the user to the game object.
+        """
 
+        self.tictactoe_game.make_movement_by_human(
+            self.tictactoe_game.turn, 2, 2
+        )
 
+    def update_buttonGameTiles(self):
+        """ Updates images on the game tile buttons.
+        """
 
+        self.update_buttonGameTile(self.buttonGameTile00, 0, 0)
+        self.update_buttonGameTile(self.buttonGameTile01, 0, 1)
+        self.update_buttonGameTile(self.buttonGameTile02, 0, 2)
+        self.update_buttonGameTile(self.buttonGameTile10, 1, 0)
+        self.update_buttonGameTile(self.buttonGameTile11, 1, 1)
+        self.update_buttonGameTile(self.buttonGameTile12, 1, 2)
+        self.update_buttonGameTile(self.buttonGameTile20, 2, 0)
+        self.update_buttonGameTile(self.buttonGameTile21, 2, 1)
+        self.update_buttonGameTile(self.buttonGameTile22, 2, 2)
 
+    def update_buttonGameTile(self, buttonGameTile, row, col):
+        """ Updates individual image on a game tile button.
 
+        Args:
+            buttonGameTile: The button tile reference to make a change.
+            row: Row number of the movement.
+            col: Column number of the movement.
 
+        """
 
+        if self.tictactoe_game.board.state[row][col] == 0:
+            buttonGameTile.config(image=self.imageEmpty,
+                                         width="100", height="100")
+            buttonGameTile.image = self.imageEmpty
+        elif self.tictactoe_game.board.state[row][col] == 1:
+            buttonGameTile.config(image=self.imageO,
+                                  width="100", height="100")
+            buttonGameTile.image = self.imageO
+        elif self.tictactoe_game.board.state[row][col] == -1:
+            buttonGameTile.config(image=self.imageX,
+                                  width="100", height="100")
+            buttonGameTile.image = self.imageX
 
+    def terminate_game(self, winner):
+        """ Terminates the game from the GUI side.
+
+        Args:
+            winner: The winner of the game, 0 if draw.
+        """
+
+        if winner == 1:
+            self.function_console_print("Player O won!")
+        elif winner == -1:
+            self.function_console_print("Player X won!")
+        elif winner == 0:
+            self.function_console_print("Draw!")
+
+        # Stop the game.
+        self.function_game_stop()
 
     def function_game_start(self):
         """ Starts a new game.
@@ -402,12 +515,15 @@ class MainGui(tkinter.Frame):
         player_x_selection = self.variable_x_player_selection.get()
 
         self.tictactoe_game = tic_tac_toe.TicTacToe(player_o_selection,
-                                                    player_x_selection)
+                                                    player_x_selection,
+                                                    self)
         self.tictactoe_game.start_thinking_player_o()
 
         # Restrict start and stop buttons.
         self.buttonGameStart.configure(state=tkinter.DISABLED)
         self.buttonGameStop.configure(state=tkinter.NORMAL)
+
+        self.enable_all_buttonGameTiles()
 
     def function_game_stop(self):
         """ Stops the current game and reset everything.
@@ -415,28 +531,11 @@ class MainGui(tkinter.Frame):
 
         self.function_console_print("Game stopped.")
 
-
-
-
-
-
         # Restrict start and stop buttons.
         self.buttonGameStart.configure(state=tkinter.NORMAL)
         self.buttonGameStop.configure(state=tkinter.DISABLED)
 
-
-
-
-
-
-
-
-
-
-
-
-
-
+        self.disable_all_buttonGameTiles()
 
     def function_console_print(self, message):
         """Prints a line of message to the console.
@@ -453,13 +552,6 @@ class MainGui(tkinter.Frame):
         """Exits the entire program and close the GUI front-end application.
         """
         exit()
-
-
-
-
-
-
-
 
 
 class UnitTest(unittest.TestCase):

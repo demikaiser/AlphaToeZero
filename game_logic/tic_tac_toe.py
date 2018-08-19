@@ -12,11 +12,13 @@ class TicTacToe(object):
     """TicTacToe game container that has a board and two players.
     """
 
-    def __init__(self, player_o_agent, player_x_agent):
+    def __init__(self, player_o_agent, player_x_agent, context):
         self.board = board.Board()
         self.player_o = player.Player(player_o_agent, 1)
         self.player_x = player.Player(player_x_agent, -1)
         self.turn = 1  # Initialized to 1, then -1, 1, -1, 1...
+        self.context = context  # GUI context for sending messages.
+        self.status = "playing"
 
     def change_turn(self):
         """Changes the turn after a movement.
@@ -63,6 +65,13 @@ class TicTacToe(object):
         elif player_side == -1:
             self.board.state[row][col] = -1
 
+        self.context.update_buttonGameTiles()
+
+        if self.is_game_terminated():
+            self.context.terminate_game(self.get_winner())
+
+        self.change_turn()
+
     def make_movement_by_ai(self, state):
         """Make a move to the given state (for AI use).
 
@@ -72,6 +81,10 @@ class TicTacToe(object):
         for i in range(3):
             for j in range(3):
                 self.board.state[i][j] = state[i][j]
+
+        self.context.update_buttonGameTiles()
+
+        self.change_turn()
 
     def is_game_terminated(self):
         """Determines if the game is terminated at this state.
