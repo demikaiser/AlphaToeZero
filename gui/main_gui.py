@@ -139,10 +139,10 @@ class MainGui(tkinter.Frame):
         """
 
         # Possible Agent Selections.
-        agents = [
-            ("Human", "Human"),
-            ("AI with Search", "AI with Search"),
-            ("AI with Learning", "AI with Learning")
+        list_agents = [
+            "Human",
+            "AI-Minimax",
+            "AI-AlphaZero"
         ]
 
         self.labelOPlayerSelection = tkinter.Label(self.subOptionInnerFrame0,
@@ -152,11 +152,9 @@ class MainGui(tkinter.Frame):
         self.variable_o_player_selection = tkinter.StringVar()
         self.variable_o_player_selection.set("Human")
 
-        for text, mode in agents:
-            b = tkinter.Radiobutton(self.subOptionInnerFrame0, text=text,
-                                    variable=self.variable_o_player_selection,
-                                    value=mode)
-            b.pack(anchor=tkinter.W)
+        tkinter.OptionMenu(self.subOptionInnerFrame0,
+                           self.variable_o_player_selection,
+                           *list_agents).pack()
 
         self.labelXPlayerSelection = tkinter.Label(self.subOptionInnerFrame0,
                                                    text="X Player Selection")
@@ -165,11 +163,13 @@ class MainGui(tkinter.Frame):
         self.variable_x_player_selection = tkinter.StringVar()
         self.variable_x_player_selection.set("Human")
 
-        for text, mode in agents:
-            b = tkinter.Radiobutton(self.subOptionInnerFrame0, text=text,
-                                    variable=self.variable_x_player_selection,
-                                    value=mode)
-            b.pack(anchor=tkinter.W)
+        tkinter.OptionMenu(self.subOptionInnerFrame0,
+                           self.variable_x_player_selection,
+                           *list_agents).pack()
+
+        self.optionSelection = tkinter.Label(self.subOptionInnerFrame0,
+                                                   text="Options")
+        self.optionSelection.pack(fill=tkinter.X, padx=6, pady=3)
 
         self.variableOption0 = tkinter.IntVar()
         tkinter.Checkbutton(self.subOptionInnerFrame0,

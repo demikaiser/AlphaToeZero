@@ -33,35 +33,27 @@ class TicTacToe(object):
         """ Makes the player O think.
         """
 
-        if self.player_o.agent == "Human":
+        if "Human" in self.player_o.agent:
             self.context_gui.function_console_print("<Human O Player's Turn>")
 
-        elif self.player_o.agent == "AI with Search":
-            self.context_gui.function_console_print("<AI Search O Player's Turn>")
+        elif "AI" in self.player_o.agent:
+            self.context_gui.function_console_print("<AI O Player's Turn>")
             ai_interface.AIInterface(self.context_gui, self, 1,
-                                     self.board.state).generate_next_move()
-
-        elif self.player_o.agent == "AI with Learning":
-            self.context_gui.function_console_print("<AI Learning O Player's Turn>")
-            ai_interface.AIInterface(self.context_gui, self, 1,
-                                     self.board.state).generate_next_move()
+                                     self.board.state, self.player_o.agent)\
+                .generate_next_move()
 
     def start_thinking_player_x(self):
         """ Makes the player X think.
         """
 
-        if self.player_x.agent == "Human":
+        if "Human" in self.player_x.agent:
             self.context_gui.function_console_print("<Human X Player's Turn>")
 
-        elif self.player_x.agent == "AI with Search":
-            self.context_gui.function_console_print("<AI Search X Player's Turn>")
+        elif "AI" in self.player_x.agent:
+            self.context_gui.function_console_print("<AI X Player's Turn>")
             ai_interface.AIInterface(self.context_gui, self, -1,
-                                     self.board.state).generate_next_move()
-
-        elif self.player_x.agent == "AI with Learning":
-            self.context_gui.function_console_print("<AI Learning X Player's Turn>")
-            ai_interface.AIInterface(self.context_gui, self, -1,
-                                     self.board.state).generate_next_move()
+                                     self.board.state, self.player_x.agent)\
+                .generate_next_move()
 
     def make_movement(self, player_side, row, col):
         """Makes a move for the given player.
